@@ -807,7 +807,7 @@ export function HomePageView({ refs, state, derived, actions }: HomePageViewProp
               </h3>
             </div>
             <p className="mt-2 text-sm text-slate-400 max-w-3xl">
-              Copy these URL patterns directly into aiometadata. Each block uses a single smart resolver URL with literal placeholders for IMDb, TMDB, TVDB, MAL, Kitsu, AniList, and AniDB.
+              Copy these URL patterns directly into aiometadata. These patterns use direct ERDB image URLs with <code>{'{imdb_id}'}</code>, which is the format currently confirmed to be accepted by aiometadata.
             </p>
             <div className="mt-4 grid grid-cols-1 xl:grid-cols-2 gap-3">
               {([

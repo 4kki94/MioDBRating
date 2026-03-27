@@ -294,82 +294,71 @@ const buildAiometadataPattern = (options: {
 const buildAiometadataPatternBlock = (options: {
   baseUrl: string;
   imageType: 'poster' | 'backdrop' | 'logo';
-  tmdbKey: string;
-  mdblistKey: string;
-  simklClientId: string;
-  lang: string;
-  posterRatings: string;
-  backdropRatings: string;
-  logoRatings: string;
-  posterStreamBadges: StreamBadgesSetting;
-  backdropStreamBadges: StreamBadgesSetting;
-  shouldShowPosterQualityBadgesSide: boolean;
-  shouldShowPosterQualityBadgesPosition: boolean;
-  qualityBadgesSide: QualityBadgesSide;
-  posterQualityBadgesPosition: PosterQualityBadgesPosition;
-  posterQualityBadgesStyle: RatingStyle;
-  backdropQualityBadgesStyle: RatingStyle;
-  posterRatingStyle: RatingStyle;
-  backdropRatingStyle: RatingStyle;
-  logoRatingStyle: RatingStyle;
-  posterImageText: 'original' | 'clean' | 'alternative';
-  backdropImageText: 'original' | 'clean' | 'alternative';
-  posterRatingsLayout: PosterRatingLayout;
-  posterRatingsMaxPerSide: number | null;
-  backdropRatingsLayout: BackdropRatingLayout;
+  configString: string;
 }) => {
-  const params: Array<[string, string]> = [
-    ['imdb', '{imdb_id}'],
-    ['tmdb', '{tmdb_id}'],
-    ['tvdb', '{tvdb_id}'],
-    ['mal', '{mal_id}'],
-    ['kitsu', '{kitsu_id}'],
-    ['anilist', '{anilist_id}'],
-    ['anidb', '{anidb_id}'],
-    ['type', '{type}'],
-    ['tmdbKey', options.tmdbKey],
-    ['mdblistKey', options.mdblistKey],
-    ['lang', '{language_short}'],
-  ];
-
-  if (options.simklClientId) {
-    params.push(['simklClientId', options.simklClientId]);
+  if (!options.baseUrl || !options.configString) {
+    return '';
   }
 
+  let config: Record<string, unknown>;
+  try {
+    config = JSON.parse(decodeBase64Url(options.configString)) as Record<string, unknown>;
+  } catch {
+    return '';
+  }
+
+  const params: Array<[string, string]> = [];
+
+  const pushIfString = (key: string) => {
+    const value = config[key];
+    if (typeof value === 'string' && value !== '') {
+      params.push([key, value]);
+    }
+  };
+
+  pushIfString('tmdbKey');
+  pushIfString('mdblistKey');
+  pushIfString('simklClientId');
+  pushIfString('lang');
+  pushIfString('ratings');
+  pushIfString('qualityBadgesSide');
+  pushIfString('posterQualityBadgesPosition');
+  pushIfString('qualityBadgesStyle');
+  pushIfString('posterQualityBadgesStyle');
+  pushIfString('backdropQualityBadgesStyle');
+  pushIfString('streamBadges');
+  pushIfString('posterStreamBadges');
+  pushIfString('backdropStreamBadges');
+
   if (options.imageType === 'poster') {
-    params.push(['posterRatings', options.posterRatings]);
-    if (options.posterStreamBadges !== 'auto') {
-      params.push(['posterStreamBadges', options.posterStreamBadges]);
+    pushIfString('posterRatings');
+    if (typeof config.posterRatingStyle === 'string' && config.posterRatingStyle !== '') {
+      params.push(['ratingStyle', config.posterRatingStyle]);
     }
-    if (options.shouldShowPosterQualityBadgesSide && options.qualityBadgesSide !== 'left') {
-      params.push(['qualityBadgesSide', options.qualityBadgesSide]);
+    if (typeof config.posterImageText === 'string' && config.posterImageText !== '') {
+      params.push(['imageText', config.posterImageText]);
     }
-    if (options.shouldShowPosterQualityBadgesPosition && options.posterQualityBadgesPosition !== 'auto') {
-      params.push(['posterQualityBadgesPosition', options.posterQualityBadgesPosition]);
-    }
-    if (options.posterQualityBadgesStyle !== DEFAULT_QUALITY_BADGES_STYLE) {
-      params.push(['posterQualityBadgesStyle', options.posterQualityBadgesStyle]);
-    }
-    params.push(['ratingStyle', options.posterRatingStyle]);
-    params.push(['imageText', options.posterImageText]);
-    params.push(['posterRatingsLayout', options.posterRatingsLayout]);
-    if (isVerticalPosterRatingLayout(options.posterRatingsLayout) && options.posterRatingsMaxPerSide !== null) {
-      params.push(['posterRatingsMaxPerSide', String(options.posterRatingsMaxPerSide)]);
+    pushIfString('posterRatingsLayout');
+    if (
+      typeof config.posterRatingsMaxPerSide === 'string' ||
+      typeof config.posterRatingsMaxPerSide === 'number'
+    ) {
+      params.push(['posterRatingsMaxPerSide', String(config.posterRatingsMaxPerSide)]);
     }
   } else if (options.imageType === 'backdrop') {
-    params.push(['backdropRatings', options.backdropRatings]);
-    if (options.backdropStreamBadges !== 'auto') {
-      params.push(['backdropStreamBadges', options.backdropStreamBadges]);
+    pushIfString('backdropRatings');
+    if (typeof config.backdropRatingStyle === 'string' && config.backdropRatingStyle !== '') {
+      params.push(['ratingStyle', config.backdropRatingStyle]);
     }
-    if (options.backdropQualityBadgesStyle !== DEFAULT_QUALITY_BADGES_STYLE) {
-      params.push(['backdropQualityBadgesStyle', options.backdropQualityBadgesStyle]);
+    if (typeof config.backdropImageText === 'string' && config.backdropImageText !== '') {
+      params.push(['imageText', config.backdropImageText]);
     }
-    params.push(['ratingStyle', options.backdropRatingStyle]);
-    params.push(['imageText', options.backdropImageText]);
-    params.push(['backdropRatingsLayout', options.backdropRatingsLayout]);
+    pushIfString('backdropRatingsLayout');
   } else {
-    params.push(['logoRatings', options.logoRatings]);
-    params.push(['ratingStyle', options.logoRatingStyle]);
+    pushIfString('logoRatings');
+    if (typeof config.logoRatingStyle === 'string' && config.logoRatingStyle !== '') {
+      params.push(['ratingStyle', config.logoRatingStyle]);
+    }
   }
 
   const query = params
@@ -377,7 +366,8 @@ const buildAiometadataPatternBlock = (options: {
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
 
-  return `${options.baseUrl}/resolve/${options.imageType}?${query}`;
+  const basePattern = `${options.baseUrl}/${options.imageType}/{imdb_id}.jpg`;
+  return query ? `${basePattern}?${query}` : basePattern;
 };
 
 const downloadJsonFile = (payload: Record<string, unknown>, filename: string) => {
@@ -941,122 +931,27 @@ Skip any params that are undefined. Keep empty ratings/posterRatings/backdropRat
   ]);
 
   const aiometadataPatterns = useMemo(() => {
-    const tmdb = tmdbKey.trim();
-    const mdb = mdblistKey.trim();
-    const simkl = simklClientId.trim();
-    const posterRatings = stringifyRatingPreferencesAllowEmpty(posterRatingPreferences);
-    const backdropRatings = stringifyRatingPreferencesAllowEmpty(backdropRatingPreferences);
-    const logoRatings = stringifyRatingPreferencesAllowEmpty(logoRatingPreferences);
-
     return {
       poster: buildAiometadataPatternBlock({
         baseUrl,
         imageType: 'poster',
-        tmdbKey: tmdb,
-        mdblistKey: mdb,
-        simklClientId: simkl,
-        lang,
-        posterRatings,
-        backdropRatings,
-        logoRatings,
-        posterStreamBadges,
-        backdropStreamBadges,
-        shouldShowPosterQualityBadgesSide,
-        shouldShowPosterQualityBadgesPosition,
-        qualityBadgesSide,
-        posterQualityBadgesPosition,
-        posterQualityBadgesStyle,
-        backdropQualityBadgesStyle,
-        posterRatingStyle,
-        backdropRatingStyle,
-        logoRatingStyle,
-        posterImageText,
-        backdropImageText,
-        posterRatingsLayout,
-        posterRatingsMaxPerSide,
-        backdropRatingsLayout,
+        configString,
       }),
       background: buildAiometadataPatternBlock({
         baseUrl,
         imageType: 'backdrop',
-        tmdbKey: tmdb,
-        mdblistKey: mdb,
-        simklClientId: simkl,
-        lang,
-        posterRatings,
-        backdropRatings,
-        logoRatings,
-        posterStreamBadges,
-        backdropStreamBadges,
-        shouldShowPosterQualityBadgesSide,
-        shouldShowPosterQualityBadgesPosition,
-        qualityBadgesSide,
-        posterQualityBadgesPosition,
-        posterQualityBadgesStyle,
-        backdropQualityBadgesStyle,
-        posterRatingStyle,
-        backdropRatingStyle,
-        logoRatingStyle,
-        posterImageText,
-        backdropImageText,
-        posterRatingsLayout,
-        posterRatingsMaxPerSide,
-        backdropRatingsLayout,
+        configString,
       }),
       logo: buildAiometadataPatternBlock({
         baseUrl,
         imageType: 'logo',
-        tmdbKey: tmdb,
-        mdblistKey: mdb,
-        simklClientId: simkl,
-        lang,
-        posterRatings,
-        backdropRatings,
-        logoRatings,
-        posterStreamBadges,
-        backdropStreamBadges,
-        shouldShowPosterQualityBadgesSide,
-        shouldShowPosterQualityBadgesPosition,
-        qualityBadgesSide,
-        posterQualityBadgesPosition,
-        posterQualityBadgesStyle,
-        backdropQualityBadgesStyle,
-        posterRatingStyle,
-        backdropRatingStyle,
-        logoRatingStyle,
-        posterImageText,
-        backdropImageText,
-        posterRatingsLayout,
-        posterRatingsMaxPerSide,
-        backdropRatingsLayout,
+        configString,
       }),
       episodeThumbnail: '',
     };
   }, [
     baseUrl,
-    tmdbKey,
-    mdblistKey,
-    simklClientId,
-    lang,
-    posterRatingPreferences,
-    backdropRatingPreferences,
-    logoRatingPreferences,
-    posterStreamBadges,
-    backdropStreamBadges,
-    shouldShowPosterQualityBadgesSide,
-    shouldShowPosterQualityBadgesPosition,
-    qualityBadgesSide,
-    posterQualityBadgesPosition,
-    posterQualityBadgesStyle,
-    backdropQualityBadgesStyle,
-    posterRatingStyle,
-    backdropRatingStyle,
-    logoRatingStyle,
-    posterImageText,
-    backdropImageText,
-    posterRatingsLayout,
-    posterRatingsMaxPerSide,
-    backdropRatingsLayout,
+    configString,
   ]);
 
   const updateRatingRowsForType = (
