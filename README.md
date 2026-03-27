@@ -57,7 +57,7 @@ docker run -d \
   ghcr.io/realbestia1/erdb:latest
 ```
 
-The public port is `ERDB_HTTP_PORT` (default `3000`) exposed by Caddy. Set it in the `.env` file.
+The public port is `ERDB_HTTP_PORT` (default `3000`) exposed directly by the `app` container. Set it in the `.env` file.
 Data (SQLite database and image cache) is persisted in `./data`.
 
 Custom port:
