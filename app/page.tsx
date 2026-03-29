@@ -565,23 +565,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const storedPreviewConfig = safeLocalStorageGet(PREVIEW_CONFIG_STORAGE_KEY);
-    if (!storedPreviewConfig) {
-      return;
-    }
-    const frameId = window.requestAnimationFrame(() => {
-      try {
-        const parsed = JSON.parse(storedPreviewConfig) as Record<string, unknown>;
-        applyImportedConfig(parsed);
-      } catch {
-        safeLocalStorageRemove(PREVIEW_CONFIG_STORAGE_KEY);
-      }
-    });
-    return () => window.cancelAnimationFrame(frameId);
-  }, []);
-
-  useEffect(() => {
     if (tmdbKey) {
       safeLocalStorageSet(TMDB_KEY_STORAGE_KEY, tmdbKey);
     } else {
@@ -1281,7 +1264,7 @@ Skip any params that are undefined. Keep empty ratings/posterRatings/backdropRat
     setTimeout(() => setExportStatus('idle'), 2000);
   };
 
-  const applyImportedConfig = (payload: Record<string, unknown>) => {
+  function applyImportedConfig(payload: Record<string, unknown>) {
     if (typeof payload.tmdbKey === 'string') {
       setTmdbKey(payload.tmdbKey);
     }
@@ -1430,7 +1413,24 @@ Skip any params that are undefined. Keep empty ratings/posterRatings/backdropRat
 
     setImportStatus('success');
     setImportMessage('Config loaded.');
-  };
+  }
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const storedPreviewConfig = safeLocalStorageGet(PREVIEW_CONFIG_STORAGE_KEY);
+    if (!storedPreviewConfig) {
+      return;
+    }
+    const frameId = window.requestAnimationFrame(() => {
+      try {
+        const parsed = JSON.parse(storedPreviewConfig) as Record<string, unknown>;
+        applyImportedConfig(parsed);
+      } catch {
+        safeLocalStorageRemove(PREVIEW_CONFIG_STORAGE_KEY);
+      }
+    });
+    return () => window.cancelAnimationFrame(frameId);
+  }, []);
 
   useEffect(() => {
     const payload: Record<string, unknown> = {
