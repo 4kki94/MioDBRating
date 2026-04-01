@@ -4,11 +4,7 @@ on:
   schedule:
     # Esegue la sincronizzazione ogni ora (al minuto 0)
     - cron: '0 * * * *'
-  workflow_dispatch: # Permette l'avvio manuale dalla tab Actions
-
-permissions:
-  contents: write
-  workflows: write
+  workflow_dispatch: # Permette l'avvio manuale
 
 jobs:
   sync_upstream:
@@ -17,13 +13,11 @@ jobs:
       - name: Checkout del repository
         uses: actions/checkout@v4
         with:
-          # Necessario per gestire correttamente la cronologia dei commit
           fetch-depth: 0
 
       - name: Sincronizzazione con Upstream
         env:
-          # Usiamo il Personal Access Token creato da te
+          # Questo usa il segreto PAT_TOKEN che hai creato prima
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          # Sincronizza forzatamente il tuo fork con l'originale
           gh repo sync 4kki94/miodbrating --source realbestia1/erdb --force
