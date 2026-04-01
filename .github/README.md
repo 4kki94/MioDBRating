@@ -9,6 +9,9 @@ ERDB generates poster/backdrop/logo/thumbnail images with dynamic ratings on-the
 
 [![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/realbestia)
 
+<details>
+<summary>Click to view Self-Hosting Instructions (Docker / Local)</summary>
+
 ## Quick Start
 
 ## Install From GitHub
@@ -79,6 +82,8 @@ The repository includes a GitHub Actions workflow at [`.github/workflows/docker-
 - On pull requests, it verifies that the Docker image builds successfully.
 - On pushes to `main`, it builds and publishes the image to `ghcr.io/<owner>/<repo>`.
 - On tags like `v1.0.0`, it also publishes a versioned image tag.
+</details>
+
 ## HuggingFace Guide (NOT RECOMMENDED)
 
 <details>
