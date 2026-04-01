@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.1.26](https://github.com/realbestia1/erdb/compare/v0.1.25...v0.1.26) - 2026-04-01
+
+- add dedicated API docs page and bump package version to 0.1.26
+  Added a standalone `/docs` page for the ERDB public API surface, linked it from the homepage, documented renderer/proxy/helper endpoints with real query behavior, and clarified that `realimdb:` should be used for addons that actually source series or episode metadata from IMDb IDs.
+
 ## [0.1.25](https://github.com/realbestia1/erdb/compare/v0.1.24...v0.1.25) - 2026-03-31
 
 - align anime rating provider logos and bump package version to 0.1.25 ([92dbe86](https://github.com/realbestia1/erdb/commit/92dbe8698914b612ac1ee8dfaea4e33528e16ea6))

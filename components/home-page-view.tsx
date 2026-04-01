@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState, type ChangeEvent, type Dispatch, type MouseEvent, type RefObject, type SetStateAction } from 'react';
 import type { ProxyCatalogDescriptor } from '@/lib/proxyCatalog';
 import type { SupportedLanguage } from '@/lib/tmdbLanguage';
@@ -430,7 +431,7 @@ export function HomePageView({ refs, state, derived, actions }: HomePageViewProp
               <div className="flex flex-wrap items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
                 <a href="#preview" onClick={handleAnchorClick} className="px-3 py-2 rounded-full hover:text-white hover:bg-white/[0.04] transition-colors">Configurator</a>
                 <a href="#proxy" onClick={handleAnchorClick} className="px-3 py-2 rounded-full hover:text-white hover:bg-white/[0.04] transition-colors">Addon Proxy</a>
-                <a href="#docs" onClick={handleAnchorClick} className="px-3 py-2 rounded-full hover:text-white hover:bg-white/[0.04] transition-colors">API Docs</a>
+                <Link href="/docs" className="px-3 py-2 rounded-full hover:text-white hover:bg-white/[0.04] transition-colors">API Docs</Link>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2 lg:justify-center">
@@ -477,9 +478,9 @@ export function HomePageView({ refs, state, derived, actions }: HomePageViewProp
                 <a href="#preview" onClick={handleAnchorClick} className="px-6 py-3 rounded-full bg-white text-black font-semibold hover:bg-slate-100 transition-colors">
                   Open Configurator
                 </a>
-                <a href="#docs" onClick={handleAnchorClick} className="px-6 py-3 rounded-full border border-white/10 bg-white/[0.04] text-white font-semibold hover:bg-white/10 transition-colors">
+                <Link href="/docs" className="px-6 py-3 rounded-full border border-white/10 bg-white/[0.04] text-white font-semibold hover:bg-white/10 transition-colors">
                   Read API Docs
-                </a>
+                </Link>
               </div>
               <div className="flex flex-wrap gap-4 text-xs text-slate-400">
                 <div className="flex items-center gap-2">
