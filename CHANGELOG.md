@@ -2,6 +2,22 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.2.6](https://github.com/realbestia1/erdb/compare/v0.2.5...v0.2.6) - 2026-04-02
+
+- fix: prevent preview image clipping on zoom ([425f863](https://github.com/realbestia1/erdb/commit/425f863d25c1c194ee2e8a2c8cf5858ec5ba6020))
+  - Changed `object-cover` to `object-contain` for the live preview image in `workspace-page-view.tsx`.
+  - Bumped package version to 0.2.6.
+  This resolves a UI rendering issue where badges placed on the exact edges of the generated image would get cropped or skewed when the user zooms in/out of the page. By containing the image fully within the wrapper regardless of fractional aspect ratio differences, all image boundaries and components always remain completely visible.
+
+## [0.2.5](https://github.com/realbestia1/erdb/compare/v0.2.4...v0.2.5) - 2026-04-02
+
+- fix(renderer): standardize logo rating height to 100px and remove auto-scaling ([7265a12](https://github.com/realbestia1/erdb/commit/7265a12c1e05c6eea474cb3d25d6c37dfc733d4c))
+  - Removed the automatic boosting system for rating badges in the 'logo' image type.
+  - Disabled dynamic scale calculation based on the original logo aspect ratio.
+  - Implemented fixed badge metrics (iconSize: 84px, paddingY: 8px) to guarantee a consistent 100px height.
+  - Optimized fontSize (62px), paddingX (32px), and gap (20px) for better aesthetics at a fixed size.
+  - Ensured badge size remains constant (preserveBadgeSize: true) even when multiple ratings are displayed.
+
 ## [0.2.4](https://github.com/realbestia1/erdb/compare/v0.2.3...v0.2.4) - 2026-04-01
 
 - preserve better readability on very wide logos ([c6603cf](https://github.com/realbestia1/erdb/commit/c6603cfd3e9edf15f485b0e29501c0431dfc353c))
