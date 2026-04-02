@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.2.8](https://github.com/realbestia1/erdb/compare/v0.2.7...v0.2.8) - 2026-04-02
+
+- Improve Docker font handling and image response types ([3f2033f](https://github.com/realbestia1/erdb/commit/3f2033f99d1cb7a922747d337360f439ec8031b0))
+  Update Dockerfiles to skip automatic font install by default (ERDB_SKIP_FONT_INSTALL) and add bash/curl to Alpine deps; copy and execute scripts/install-fonts-linux.sh (with chmod) in build/runtime images so fonts are installed reliably. Refactor server image rendering flow in app/[type]/[id]/route.tsx: change in-flight maps to carry RenderedImagePayload, return payload objects from internal branches, and centralize the final respond(...) call to ensure consistent response construction. Also bump app version to 0.2.8 (package.json) and update displayed currentVersion in the home page component.
+
+## [0.2.7](https://github.com/realbestia1/erdb/compare/v0.2.6...v0.2.7) - 2026-04-02
+
+- Add custom logo variants and caching ([88ce2c3](https://github.com/realbestia1/erdb/commit/88ce2c3c01295d72d29043f4da204bc002a8de88))
+  Introduce custom logo generation and variant support with SVG output, selectable font variants, and custom primary/secondary/outline colors. Adds in-memory + object-storage caching for generated logo variants, new cache keys/TTL, and storage read/write helpers; integrates custom-logo and ratings-only modes into the rendering pipeline and query params (logoMode, logoFontVariant, logoPrimary/Secondary/Outline). Improve title localization by picking translated titles from TMDB translations, bump final image renderer cache version, and standardize response/cache headers. Also add a docs AI integration prompt and copy button component, expose new logo options in the docs and home view types, and include various small refactors to image rendering, cache keys, and object storage behavior.
+
 ## [0.2.6](https://github.com/realbestia1/erdb/compare/v0.2.5...v0.2.6) - 2026-04-02
 
 - fix: prevent preview image clipping on zoom ([425f863](https://github.com/realbestia1/erdb/commit/425f863d25c1c194ee2e8a2c8cf5858ec5ba6020))
