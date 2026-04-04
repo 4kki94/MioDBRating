@@ -13,40 +13,80 @@ ERDB generates poster/backdrop/logo/thumbnail images with dynamic ratings on-the
 
 ### Posters
 
-<p align="center">
-  <img src="./assets/poster1.webp" alt="ERDB poster example 1" width="24%" />
-  <img src="./assets/poster2.webp" alt="ERDB poster example 2" width="24%" />
-  <img src="./assets/poster3.webp" alt="ERDB poster example 3" width="24%" />
-  <img src="./assets/poster4.webp" alt="ERDB poster example 4" width="24%" />
-</p>
+<table>
+  <tr>
+    <td width="50%"><strong>Poster 1</strong><br />Vertical layout with compact rating badges</td>
+    <td width="50%"><strong>Poster 2</strong><br />Clean poster treatment with stacked score chips</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/poster1.webp" alt="ERDB poster example 1" width="100%" /></td>
+    <td><img src="./assets/poster2.webp" alt="ERDB poster example 2" width="100%" /></td>
+  </tr>
+  <tr>
+    <td width="50%"><strong>Poster 3</strong><br />Dark cinematic grading with readable overlays</td>
+    <td width="50%"><strong>Poster 4</strong><br />Alternative poster style with balanced badge spacing</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/poster3.webp" alt="ERDB poster example 3" width="100%" /></td>
+    <td><img src="./assets/poster4.webp" alt="ERDB poster example 4" width="100%" /></td>
+  </tr>
+</table>
 
 ### Backdrops
 
-<p align="center">
-  <img src="./assets/backdrop1.webp" alt="ERDB backdrop example 1" width="24%" />
-  <img src="./assets/backdrop2.webp" alt="ERDB backdrop example 2" width="24%" />
-  <img src="./assets/backdrop3.webp" alt="ERDB backdrop example 3" width="24%" />
-  <img src="./assets/backdrop4.webp" alt="ERDB backdrop example 4" width="24%" />
-</p>
+<table>
+  <tr>
+    <td width="50%"><strong>Backdrop 1</strong><br />Wide banner composition with ratings aligned to the edge</td>
+    <td width="50%"><strong>Backdrop 2</strong><br />Landscape artwork with strong contrast and badge clarity</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/backdrop1.webp" alt="ERDB backdrop example 1" width="100%" /></td>
+    <td><img src="./assets/backdrop2.webp" alt="ERDB backdrop example 2" width="100%" /></td>
+  </tr>
+  <tr>
+    <td width="50%"><strong>Backdrop 3</strong><br />Low-light scene with glass-style ratings</td>
+    <td width="50%"><strong>Backdrop 4</strong><br />Alternative backdrop render with clean right-side stacks</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/backdrop3.webp" alt="ERDB backdrop example 3" width="100%" /></td>
+    <td><img src="./assets/backdrop4.webp" alt="ERDB backdrop example 4" width="100%" /></td>
+  </tr>
+</table>
 
 ### Logos
 
-<p align="center">
-  <img src="./assets/logo.png" alt="ERDB logo example" width="49%" />
-</p>
+<table>
+  <tr>
+    <td width="100%"><strong>Logo</strong><br />Standard logo render with integrated quality and rating badges</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/logo.png" alt="ERDB logo example" width="100%" /></td>
+  </tr>
+</table>
 
 ### Custom Logos
 
-<p align="center">
-  <img src="./assets/custom-logo.png" alt="ERDB custom logo example 1" width="49%" />
-  <img src="./assets/custom-logo2.png" alt="ERDB custom logo example 2" width="49%" />
-</p>
+<table>
+  <tr>
+    <td width="50%"><strong>Custom Logo 1</strong><br />Custom layout with large title treatment and bottom ratings</td>
+    <td width="50%"><strong>Custom Logo 2</strong><br />Alternative custom logo composition for branded artwork</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/custom-logo.png" alt="ERDB custom logo example 1" width="100%" /></td>
+    <td><img src="./assets/custom-logo2.png" alt="ERDB custom logo example 2" width="100%" /></td>
+  </tr>
+</table>
 
 ### Thumbnails
 
-<p align="center">
-  <img src="./assets/thumbnail.webp" alt="ERDB thumbnail example" width="49%" />
-</p>
+<table>
+  <tr>
+    <td width="100%"><strong>Thumbnail</strong><br />Compact episode-style thumbnail with ratings optimized for small surfaces</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/thumbnail.webp" alt="ERDB thumbnail example" width="100%" /></td>
+  </tr>
+</table>
 
 <details>
 <summary>Click to view Self-Hosting Instructions (Docker / Local)</summary>
