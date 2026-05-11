@@ -2,6 +2,22 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.43](https://github.com/realbestia1/erdb/compare/v0.4.42...v0.4.43) - 2026-05-11
+
+- Fetch TMDB genres dynamically and update lookup ([d9942f1](https://github.com/realbestia1/erdb/commit/d9942f1a8695a39bb13b3655c5e42010bdf85f3f))
+  Remove hardcoded TMDB genre maps and unused cache size constants; add fetchTmdbGenres to fetch and cache genre lists from TMDB. Make getFirstTmdbGenreName async and extend its signature (tmdbKey, language, phases) so it can fetch localized genre names when media.genre_ids are present. Add input guards and use the fetched genre map for id->name resolution; update the call site to await the new async function. This enables up-to-date, localized genre names and removes reliance on static mappings.
+
+## [0.4.42](https://github.com/realbestia1/erdb/compare/v0.4.41...v0.4.42) - 2026-05-11
+
+- . ([ba4ad84](https://github.com/realbestia1/erdb/commit/ba4ad8421d06231b24e8b3e62d1c924235891ece))
+- Update route.ts ([97ea3a4](https://github.com/realbestia1/erdb/commit/97ea3a46e927a50384321f9ba92badf7f02d14b0))
+- Update route.ts ([7a1bdfe](https://github.com/realbestia1/erdb/commit/7a1bdfe7931b01e1b86c23e7a8caba2efa721bf7))
+
+## [0.4.41](https://github.com/realbestia1/erdb/compare/v0.4.4...v0.4.41) - 2026-05-11
+
+- Improve SVG shadow rendering and bump version ([fa12b39](https://github.com/realbestia1/erdb/commit/fa12b39e143bbf4258a5849d778780af4a6b7114))
+  Replace multiple feDropShadow usages with explicit SVG filter chains (feGaussianBlur, feFlood, feComposite, feOffset, feMerge) to produce more consistent shadows and better control. Add universal stroke and filter attributes to text elements, expand SVG viewBox bounds to avoid clipping, and update FINAL_IMAGE_RENDERER_CACHE_VERSION. Also bump package version to 0.4.41 (package.json + package-lock.json). Changes target app/[type]/[id]/route.ts and package metadata.
+
 ## [0.4.4](https://github.com/realbestia1/erdb/compare/v0.4.3...v0.4.4) - 2026-05-11
 
 - fix ([90ac99a](https://github.com/realbestia1/erdb/commit/90ac99a94e4b3173ad1114d12a50d8257f12e728))
