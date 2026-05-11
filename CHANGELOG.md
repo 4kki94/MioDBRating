@@ -2,6 +2,29 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.4](https://github.com/realbestia1/erdb/compare/v0.4.3...v0.4.4) - 2026-05-11
+
+- fix ([90ac99a](https://github.com/realbestia1/erdb/commit/90ac99a94e4b3173ad1114d12a50d8257f12e728))
+
+## [0.4.3](https://github.com/realbestia1/erdb/compare/v0.4.2...v0.4.3) - 2026-05-11
+
+- fix token ([9031c9d](https://github.com/realbestia1/erdb/commit/9031c9d26ae1a418d8a56b433517c8dcfa444995))
+
+## [0.4.2](https://github.com/realbestia1/erdb/compare/v0.4.1...v0.4.2) - 2026-05-11
+
+- Handle poster preset/ratings and bump version ([92cb5b8](https://github.com/realbestia1/erdb/commit/92cb5b8d688b3103c1fc9ddb134290d49486774e))
+  Parse posterConfiguratorPreset and posterRatingsMode from the payload and update component state accordingly: setPosterConfiguratorPreset for 'simple' or 'advanced', and setPosterAverageRatingsEnabled when posterRatingsMode is 'average' (false for 'separate'). Also bump package version to 0.4.2.
+
+## [0.4.1](https://github.com/realbestia1/erdb/compare/v0.4.0...v0.4.1) - 2026-05-11
+
+- Refactor poster rating config and bump version ([52ea033](https://github.com/realbestia1/erdb/commit/52ea03325ff609bf6ae59f53e13bc768d1e90a9c))
+  Consolidate poster rating configuration in HomePage: add explicit handling for the 'simple' posterConfiguratorPreset (sets posterConfiguratorPreset, posterRatingsMode, posterRatings, posterRatingStyle, and posterRatingsLayout) and simplify conditional assignments for non-simple presets. Add handling for vertical poster rating layouts to set posterRatingsMaxPerSide when applicable, and keep backdrop/thumbnail/logo rating style assignments conditional. Also bump package version to 0.4.1 in package.json.
+
+## [0.4.0](https://github.com/realbestia1/erdb/compare/v0.3.31...v0.4.0) - 2026-05-11
+
+- Support poster average rating & simple preset ([6e2003f](https://github.com/realbestia1/erdb/commit/6e2003fce64598b2fe177aefbbe3ed90d8d302ed))
+  Introduce a 'simple' poster configurator preset and support an 'average' synthetic rating badge. Updates include: add TMDB genre name maps and a star SVG icon, parse/format rating values, compute average poster rating and inject an 'average' badge, and wire new posterRatingsMode/posterConfiguratorPreset query params. Improve badge measurement and SVG rendering (plain style, star/genre stacking, icon handling), add poster top/bottom blur overlays for title/logo layouts, and bump final image renderer cache version. Also wire UI state and props in home-page and home-page-view to expose the new preset and average rating controls.
+
 ## [0.3.31](https://github.com/realbestia1/erdb/compare/v0.3.30...v0.3.31) - 2026-05-08
 
 - Bump package version to 0.3.31 ([0d46e38](https://github.com/realbestia1/erdb/commit/0d46e383dd8d4116ac8be94bdab0b009390f626f))
