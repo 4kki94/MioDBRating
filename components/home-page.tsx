@@ -1847,25 +1847,29 @@ export default function HomePage({
     if (backdropQualityBadgesStyle !== DEFAULT_QUALITY_BADGES_STYLE) {
       config.backdropQualityBadgesStyle = backdropQualityBadgesStyle;
     }
-    if (posterConfiguratorPreset !== 'simple' && posterRatingStyle) {
-      config.posterRatingStyle = posterRatingStyle;
+    if (posterConfiguratorPreset === 'simple') {
+      config.posterConfiguratorPreset = 'simple';
+      config.posterRatingsMode = 'average';
+      if (posterSimpleRatingSource !== 'average') {
+        config.posterRatings = posterSimpleRatingSource;
+      }
+      config.posterRatingStyle = 'plain';
+      config.posterRatingsLayout = 'bottom';
+    } else {
+      if (posterRatingStyle) config.posterRatingStyle = posterRatingStyle;
+      if (posterRatingsLayout) {
+        if (posterAverageRatingsEnabled) {
+          config.posterRatingsMode = 'average';
+        }
+        config.posterRatingsLayout = posterRatingsLayout;
+      }
     }
-    if (backdropRatingStyle) {
-      config.backdropRatingStyle = backdropRatingStyle;
+    if (isVerticalPosterRatingLayout(posterRatingsLayout) && posterRatingsMaxPerSide !== null) {
+      config.posterRatingsMaxPerSide = posterRatingsMaxPerSide;
     }
-    if (thumbnailRatingStyle) {
-      config.thumbnailRatingStyle = thumbnailRatingStyle;
-    }
-    if (logoRatingStyle) {
-      config.logoRatingStyle = logoRatingStyle;
-    }
-
-    if (posterConfiguratorPreset !== 'simple') {
-      config.posterRatingStyle = posterRatingStyle;
-    }
-    config.backdropRatingStyle = backdropRatingStyle;
-    config.thumbnailRatingStyle = thumbnailRatingStyle;
-    config.logoRatingStyle = logoRatingStyle;
+    if (backdropRatingStyle) config.backdropRatingStyle = backdropRatingStyle;
+    if (thumbnailRatingStyle) config.thumbnailRatingStyle = thumbnailRatingStyle;
+    if (logoRatingStyle) config.logoRatingStyle = logoRatingStyle;
     config.logoMode = logoMode;
     config.logoFontVariant = logoFontVariant;
     config.logoPrimary = logoCustomPrimary;
