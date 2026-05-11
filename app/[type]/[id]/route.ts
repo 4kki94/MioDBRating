@@ -2841,7 +2841,7 @@ const configureSharp = (sharp: any) => {
   if (sharpConfigured || !sharp) return;
   sharpConfigured = true;
 
-  const concurrency = parseNonNegativeInt(process.env.ERDB_SHARP_CONCURRENCY, 64);
+  const concurrency = parseNonNegativeInt(process.env.ERDB_SHARP_CONCURRENCY, 0);
   if (concurrency && concurrency > 0) {
     sharp.concurrency(concurrency);
   }
