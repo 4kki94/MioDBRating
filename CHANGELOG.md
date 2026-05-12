@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.53](https://github.com/realbestia1/erdb/compare/v0.4.52...v0.4.53) - 2026-05-12
+
+- Bump release to 0.4.53; add poster vignette ([7e501af](https://github.com/realbestia1/erdb/commit/7e501afc9c46223d680b39cecea6eb227b7a75d2))
+  Bump project version to 0.4.53 (package.json, package-lock.json, and HomePage display). Increment FINAL_IMAGE_RENDERER_CACHE_VERSION to 'poster-backdrop-logo-thumbnail-v112' to force cache invalidation for image renderer changes. Add a subtle SVG vignette overlay for poster images in renderWithSharp to darken edges. Also include small SVG glow generation/formatting cleanups and minor whitespace/formatting adjustments in route.ts.
+- Update route.ts ([bb83a86](https://github.com/realbestia1/erdb/commit/bb83a865c13e62c2e707437a6fc9aedbf3392eee))
+
 ## [0.4.52](https://github.com/realbestia1/erdb/compare/v0.4.51...v0.4.52) - 2026-05-12
 
 - Exclude generic catalog IDs from anime text prefs ([2c4bd07](https://github.com/realbestia1/erdb/commit/2c4bd078a28b43e09cfb6347a4ad6b710d8ffbf0))
