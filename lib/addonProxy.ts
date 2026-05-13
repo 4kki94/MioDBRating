@@ -21,6 +21,7 @@ const ERDB_OPTIONAL_PARAMS = [
   'posterQualityBadgesPosition',
   'qualityBadgesStyle',
   'posterRatingsLayout',
+  'posterGenrePosition',
   'posterRatingsMode',
   'posterConfiguratorPreset',
   'posterRatingsMaxPerSide',
@@ -41,11 +42,13 @@ const ERDB_TYPE_OPTIONAL_PARAMS = {
     'posterRatings',
     'posterRatingsMode',
     'posterConfiguratorPreset',
+    'posterGenrePosition',
     'ranking',
     'rankingCountry',
     'rankingNoBox',
     'rankingPosition',
     'posterAverageRatingsEnabled',
+    'posterVignette',
   ],
   backdrop: ['backdropStreamBadges', 'backdropQualityBadgesStyle', 'backdropRatings', 'backdropRatingsMax'],
   logo: ['logoRatings', 'logoRatingsMax', 'logoMode', 'logoFontVariant', 'logoPrimary', 'logoSecondary', 'logoOutline'],
@@ -151,6 +154,7 @@ export type ProxyConfig = {
   backdropImageText?: string;
   backdropAnimeImageText?: string;
   posterRatingsLayout?: string;
+  posterGenrePosition?: string;
   posterRatingsMode?: string;
   posterConfiguratorPreset?: string;
   posterRatingsMaxPerSide?: string;
@@ -167,6 +171,7 @@ export type ProxyConfig = {
   rankingNoBox?: string | boolean;
   rankingPosition?: string;
   posterAverageRatingsEnabled?: boolean | string;
+  posterVignette?: boolean | string;
   posterSimpleRatingSource?: string;
   seriesMetadataProvider?: string;
   aiometadataProvider?: string;
@@ -221,6 +226,7 @@ const PROXY_OPTIONAL_STRING_KEYS = [
   'backdropImageText',
   'backdropAnimeImageText',
   'posterRatingsLayout',
+  'posterGenrePosition',
   'posterRatingsMode',
   'posterConfiguratorPreset',
   'posterRatingsMaxPerSide',
@@ -251,6 +257,7 @@ const PROXY_OPTIONAL_BOOLEAN_KEYS = [
   'logoEnabled',
   'thumbnailEnabled',
   'posterAverageRatingsEnabled',
+  'posterVignette',
 ] as const satisfies readonly (keyof ProxyConfig)[];
 type ProxyOptionalBooleanKey = (typeof PROXY_OPTIONAL_BOOLEAN_KEYS)[number];
 

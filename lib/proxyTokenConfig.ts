@@ -64,6 +64,7 @@ export const buildProxyConfigFromToken = (
   mapStr('backdropImageText', 'backdropImageText');
   mapStr('backdropAnimeImageText', 'backdropAnimeImageText');
   mapStr('posterRatingsLayout', 'posterRatingsLayout');
+  mapStr('posterGenrePosition', 'posterGenrePosition');
   mapStr('backdropRatingsLayout', 'backdropRatingsLayout');
   mapStr('backdropRatingsSize', 'backdropRatingsSize');
   mapStr('thumbnailRatingsLayout', 'thumbnailRatingsLayout');
@@ -78,6 +79,9 @@ export const buildProxyConfigFromToken = (
 
   if (typeof t.posterAverageRatingsEnabled === 'boolean' || typeof t.posterAverageRatingsEnabled === 'string') {
     config.posterAverageRatingsEnabled = t.posterAverageRatingsEnabled;
+  }
+  if (typeof t.posterVignette === 'boolean' || typeof t.posterVignette === 'string') {
+    config.posterVignette = t.posterVignette;
   }
   if (typeof t.rankingNoBox === 'boolean' || typeof t.rankingNoBox === 'string') {
     config.rankingNoBox = t.rankingNoBox;

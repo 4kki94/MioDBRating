@@ -2,6 +2,22 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.67](https://github.com/realbestia1/erdb/compare/v0.4.66...v0.4.67) - 2026-05-13
+
+- Normalize posterVignette handling and bump version ([58eb904](https://github.com/realbestia1/erdb/commit/58eb904bce879b7f5102f723cf3984c431b06834))
+  Handle payload.posterVignette explicitly for 'on' and 'off' (set posterVignetteEnabled true for 'on'), and always emit posterVignette as either 'on' or 'off' instead of omitting it. Also bump package version from 0.4.66 to 0.4.67 in package.json and package-lock.json.
+- Update .gitignore ([37ea7f8](https://github.com/realbestia1/erdb/commit/37ea7f81a5fded82506813710bcca6b73ec4e7fb))
+
+## [0.4.66](https://github.com/realbestia1/erdb/compare/v0.4.65...v0.4.66) - 2026-05-13
+
+- Add poster vignette toggle and handling ([b2439ee](https://github.com/realbestia1/erdb/commit/b2439eec37a99e969b00caad49fed08116b48b2d))
+  Introduce a poster vignette option across the app: add UI toggle and state (home page, workspace types, controls panel), propagate setting through the home page controller (query/config encoding, cache keys), parse and include posterVignette in proxy/token config and addon proxy optional params, and honor the flag in image rendering (skip vignette when disabled). Also include route type update for fast render input and bump package version.
+
+## [0.4.65](https://github.com/realbestia1/erdb/compare/v0.4.64...v0.4.65) - 2026-05-13
+
+- Add poster genre badge and UI control ([c140553](https://github.com/realbestia1/erdb/commit/c1405530aff7f92ef35a0de3cdbed8bead5fb0cb))
+  Introduce poster genre badges: add PosterGenrePosition type (off/top/bottom) and normalization, wire posterGenrePosition through token/proxy config and aiometadata params, and persist it in controllers and URL/query generation. Route logic now resolves the first TMDB genre name, includes genre in average rating display when enabled, and builds a posterGenreBadge for rendering; posterGenrePosition is included in cache keys/TTLs. Image renderer composes the genre badge (top/bottom), avoids collisions using poster blocking rects, and registers blocking rects for other badges; badge height estimation was slightly improved to avoid clipping. UI: expose genre position controls in workspace/home panels and toggle for including genre with average rating. Bump package version to 0.4.65.
+
 ## [0.4.64](https://github.com/realbestia1/erdb/compare/v0.4.63...v0.4.64) - 2026-05-13
 
 - Unify and extend layout controls UI ([99eae0c](https://github.com/realbestia1/erdb/commit/99eae0c62ee4dcb40d4dd0b90732abb59516ada8))
