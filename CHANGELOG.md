@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.64](https://github.com/realbestia1/erdb/compare/v0.4.63...v0.4.64) - 2026-05-13
+
+- Unify and extend layout controls UI ([99eae0c](https://github.com/realbestia1/erdb/commit/99eae0c62ee4dcb40d4dd0b90732abb59516ada8))
+  Consolidate and refactor layout-related controls into the main Styles & Texts panel and add new layout options for multiple preview types. Adds Poster Layout controls (ratings layout, max per side, vertical badge style) and a short note about Poster Text anime support; introduces Backdrop and Thumbnail layout settings (layout, size, max badges, vertical badge style) and improves Logo mode UI including custom logo font, color presets and max badges. Also adds separators and minor UI tweaks for spacing and headings. Bumps package version to 0.4.64.
+
 ## [0.4.63](https://github.com/realbestia1/erdb/compare/v0.4.62...v0.4.63) - 2026-05-13
 
 - Use shared button style constants ([e86399f](https://github.com/realbestia1/erdb/commit/e86399ff93e32e6610b0112bfa862add35f8f860))
