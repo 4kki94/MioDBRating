@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.6](https://github.com/realbestia1/erdb/compare/v0.4.58...v0.4.6) - 2026-05-13
+
+- Extract route logic into lib modules ([4f51982](https://github.com/realbestia1/erdb/commit/4f51982bf97675f7336cfd3556f7ef730d97b68c))
+  Refactor: pull large, self-contained logic out of app/[type]/[id]/route.ts into dedicated lib modules and reorganize related components. Added many new lib files (cachedFetch, ratingProviders, ratingProviderParsing, ratingBadgeLogic, imageAssetPipeline, imageRenderer, imageSvgText, animeProviders, externalMediaProviders, routeShared, routeConfig, routeTypes, routeUtils, streamBadges, tmdbMetadata, proxyTokenConfig, proxyMetaTransform, etc.) and new home-page utilities/hooks and workspace types. Updated route imports to use these libs, adjusted workspace and home-page components, and added related utilities for streaming badges, TMDB/rating handling, image generation and caching. Also includes package.json/package-lock updates. This improves modularity, testability and reuse by separating concerns (rating providers, image pipeline, caching and metadata) into independent modules.
+- Update Dockerfile ([a9e97b4](https://github.com/realbestia1/erdb/commit/a9e97b44314ce7602f12ecca85d050123078008e))
+
 ## [0.4.58](https://github.com/realbestia1/erdb/compare/v0.4.57...v0.4.58) - 2026-05-12
 
 - Bump to v0.4.58; update image cache & defaults ([ddcf2aa](https://github.com/realbestia1/erdb/commit/ddcf2aaa157af84dc46ed2d861f944460c1dfed7))
