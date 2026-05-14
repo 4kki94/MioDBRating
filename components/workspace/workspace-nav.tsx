@@ -7,6 +7,7 @@ import {
   ChevronRight, Image as ImageIcon, MonitorPlay, Layers, Search, Tv, Film, X, Loader2,
 } from 'lucide-react';
 import type { HomePageViewProps } from '@/components/workspace/types';
+import { Dropdown } from './dropdown';
 
 const SEGMENT_CLASS =
   'flex gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]';
@@ -272,6 +273,7 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
   const { setPreviewType, setMediaId, setLang, handleSaveConfig, handleTokenDisconnect } = actions;
   const [tokenCopied, setTokenCopied] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const langOptions = supportedLanguages.map((l: { code: string; flag: string; label: string }) => ({ id: l.code, label: `${l.flag} ${l.label}` }));
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -287,6 +289,19 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
         <Link href="/" className="hidden shrink-0 items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-2 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 transition-colors hover:bg-white/[0.07] hover:text-white lg:flex">
           <ArrowLeft className="h-3.5 w-3.5" />
         </Link>
+        {state.activeToken && (
+          <button onClick={handleTokenDisconnect}
+            className="hidden items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-medium text-slate-400 transition-colors hover:bg-white/10 hover:text-white lg:flex" title="Logout">
+            <LogOut className="h-3.5 w-3.5" />
+            <span>Logout</span>
+          </button>
+        )}
+        {!state.activeToken && (
+          <Link href="/configurator" className="hidden items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-medium text-slate-100 transition-colors hover:bg-white/10 lg:flex">
+            <Lock className="h-3.5 w-3.5" />
+            <span>Login</span>
+          </Link>
+        )}
 
         {/* Center group: Type + Media ID + Lang (desktop) / Mobile Row 1 */}
         <div className="flex flex-col gap-1 lg:mx-auto lg:flex-row lg:items-center lg:gap-3">
@@ -320,11 +335,7 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
               previewType={previewType}
             />
             {tmdbKey ? (
-              <select value={lang} onChange={(e) => setLang(e.target.value)} className={`h-8 w-24 appearance-none pr-5 text-[11px] ${INPUT_COMPACT_CLASS}`}>
-                {supportedLanguages.map((language) => (
-                  <option key={language.code} value={language.code} className="bg-[#0a0a0a]">{language.flag} {language.label}</option>
-                ))}
-              </select>
+              <Dropdown value={lang} onChange={setLang} options={langOptions} className="h-8 text-[11px]" />
             ) : (
               <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-[#080808] px-2 py-1 text-[10px] text-slate-500">
                 <Globe2 className="h-3 w-3 shrink-0" />
@@ -363,22 +374,9 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
               <span>Rotate Token</span>
             </button>
           )}
-          {state.activeToken && (
-            <button onClick={handleTokenDisconnect}
-              className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-medium text-slate-400 transition-colors hover:bg-white/10 hover:text-white" title="Logout">
-              <LogOut className="h-3.5 w-3.5" />
-              <span>Logout</span>
-            </button>
-          )}
-          {!state.activeToken && (
-            <Link href="/configurator" className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-medium text-slate-100 transition-colors hover:bg-white/10">
-              <Lock className="h-3.5 w-3.5" />
-              <span>Login</span>
-            </Link>
-          )}
         </div>
 
-        {/* Mobile: Row 2 = Home + Media ID + Lang (hidden on desktop) */}
+        {/* Mobile: Row 2 = Home + Media ID + Lang + compact actions (hidden on desktop) */}
         <div className="flex items-center gap-2 lg:hidden">
           <Link href="/" className={`flex shrink-0 items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-1.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400 transition-all duration-200 hover:bg-white/[0.07] hover:text-white sm:px-2 sm:py-1.5 sm:text-[11px] ${scrolled ? 'opacity-0 invisible w-0 overflow-hidden px-0' : ''}`}>
             <ArrowLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
@@ -392,11 +390,7 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
               previewType={previewType}
             />
             {tmdbKey ? (
-              <select value={lang} onChange={(e) => setLang(e.target.value)} className={`h-7 w-20 appearance-none pr-4 text-[10px] sm:h-8 sm:w-24 sm:text-[11px] ${INPUT_COMPACT_CLASS}`}>
-                {supportedLanguages.map((language) => (
-                  <option key={language.code} value={language.code} className="bg-[#0a0a0a]">{language.flag} {language.label}</option>
-                ))}
-              </select>
+              <Dropdown value={lang} onChange={setLang} options={langOptions} className="h-7 px-2 py-1 text-[10px] sm:h-8 sm:px-2.5 sm:py-1.5 sm:text-[11px]" />
             ) : (
               <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-[#080808] px-1.5 py-0.5 text-[9px] text-slate-500 sm:px-2 sm:py-1 sm:text-[10px]">
                 <Globe2 className="h-2.5 w-2.5 shrink-0 sm:h-3 sm:w-3" />

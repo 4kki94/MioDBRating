@@ -98,7 +98,6 @@ export function WorkspacePreviewPanel({ state, derived }: WorkspacePreviewPanelP
             </div>
           )}
           <motion.div
-            layout
             drag
             dragMomentum={false}
             dragConstraints={viewportRef}
@@ -107,13 +106,10 @@ export function WorkspacePreviewPanel({ state, derived }: WorkspacePreviewPanelP
             onClick={() => setIsExpanded(true)}
           >
             <div className="pointer-events-none overflow-hidden rounded-xl border border-white/15 bg-[#06070b]/80 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl">
-              <motion.img
+              <img
                 key={previewUrl}
                 src={previewUrl}
                 alt="Preview"
-                initial={{ opacity: 0, filter: 'blur(10px)' }}
-                animate={{ opacity: 1, filter: 'blur(0px)' }}
-                transition={{ duration: 0.4 }}
                 className="block h-auto w-24 object-cover"
               />
             </div>

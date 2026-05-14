@@ -3,7 +3,8 @@
 import { Settings2, ChevronDown, KeyRound, Palette, Globe2, Layers } from 'lucide-react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
-
+import { useState, useRef, useEffect } from 'react';
+import { Dropdown } from './dropdown';
 import type { HomePageViewProps } from '@/components/workspace/types';
 import { RatingProviderSortableList } from '@/components/rating-provider-sortable-list';
 import { isVerticalPosterRatingLayout, type PosterRatingLayout } from '@/lib/posterRatingLayout';
@@ -27,7 +28,6 @@ import {
   INPUT_CLASS,
   INPUT_COMPACT_CLASS,
   SEGMENT_CLASS,
-  BUTTON_GROUP_CONTAINER_CLASS,
   BUTTON_BASE_CLASS,
   BUTTON_ACTIVE_CLASS,
   BUTTON_INACTIVE_CLASS,
@@ -42,7 +42,7 @@ type WorkspaceControlsPanelProps = Pick<HomePageViewProps, 'state' | 'derived' |
 
 function Section({ title, badge, children }: { title: string; badge?: string; children: React.ReactNode }) {
   return (
-    <div className={`${INNER_PANEL_CLASS} overflow-hidden`}>
+    <div className={`${INNER_PANEL_CLASS}`}>
       <div className="flex items-center justify-between p-5 pb-3 text-xs font-medium text-slate-300">
         <div className="flex items-center gap-2">
           <span>{title}</span>
@@ -178,34 +178,17 @@ export function WorkspaceControlsPanel({ state, derived, actions }: WorkspaceCon
   const normalizedRankingCountry = rankingCountry === 'global' ? 'global' : rankingCountry.toUpperCase();
   const hasKnownRankingCountry = JUSTWATCH_COUNTRY_OPTIONS.some((option) => option.id === normalizedRankingCountry);
 
-  const renderSelect = (value: string, onChange: (val: string) => void, options: any[], defaultLabel: string) => (
-    <div className="relative w-full">
-      <select value={value} onChange={(e) => onChange(e.target.value)} className={`h-10 w-full appearance-none pr-10 text-sm font-medium ${INPUT_COMPACT_CLASS} hover:border-orange-400/30`}>
-        <option value="" className="bg-[#0a0a0a]">{defaultLabel}</option>
-        <option value="original" className="bg-[#0a0a0a]">Native Language</option>
-        {options.map((language) => (
-          <option key={language.code} value={language.code} className="bg-[#0a0a0a]">
-            {language.flag} {language.label}
-          </option>
-        ))}
-      </select>
-      <div className="absolute right-3 top-0 bottom-0 flex items-center pointer-events-none">
-        <ChevronDown className="w-4 h-4 text-slate-400" />
-      </div>
-    </div>
-  );
+  const renderSelect = (value: string, onChange: (val: string) => void, options: any[], defaultLabel: string) => {
+    const dropdownOptions = [
+      { id: '', label: defaultLabel },
+      { id: 'original', label: 'Native Language' },
+      ...options.map((o: any) => ({ id: o.code, label: `${o.flag} ${o.label}` }))
+    ];
+    return <Dropdown value={value} onChange={onChange} options={dropdownOptions} />;
+  };
 
   const renderDropdown = <T extends string>(value: T, onChange: (val: T) => void, options: readonly { readonly id: T; readonly label: string }[]) => (
-    <div className="relative">
-      <select value={value} onChange={(e) => onChange(e.target.value as T)} className={`h-10 w-full appearance-none pr-8 text-sm font-medium ${INPUT_COMPACT_CLASS}`}>
-        {options.map(opt => (
-          <option key={opt.id} value={opt.id} className="bg-[#0a0a0a]">{opt.label}</option>
-        ))}
-      </select>
-      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
-        <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-      </div>
-    </div>
+    <Dropdown value={value} onChange={onChange} options={options} />
   );
 
   return (
@@ -355,7 +338,7 @@ export function WorkspaceControlsPanel({ state, derived, actions }: WorkspaceCon
                 <h3 className="text-xs font-medium text-slate-400 mb-2">Ratings Position</h3>
                 {renderDropdown(posterRatingsLayout, (v) => setPosterRatingsLayout(v as PosterRatingLayout), POSTER_RATING_LAYOUT_OPTIONS)}
                 {isVerticalPosterRatingLayout(posterRatingsLayout) && (
-                  <div className="flex items-center gap-3 pt-2">
+                  <div className="flex flex-wrap items-center gap-2 pt-2">
                     <span className="text-xs font-medium text-slate-400">Max / Side</span>
                     <input type="number" value={posterRatingsMaxPerSide ?? ''} onChange={(e) => setPosterRatingsMaxPerSide(e.target.value === '' ? null : parseInt(e.target.value))} placeholder="Auto" className={`w-20 ${INPUT_CLASS}`} />
                     <button onClick={() => setPosterRatingsMaxPerSide(null)} className={BUTTON_BASE_CLASS + " " + BUTTON_INACTIVE_CLASS}>Auto</button>
@@ -397,7 +380,7 @@ export function WorkspaceControlsPanel({ state, derived, actions }: WorkspaceCon
                     {renderDropdown(backdropVerticalBadgeContent, setBackdropVerticalBadgeContent, VERTICAL_BADGE_CONTENT_OPTIONS)}
                   </div>
                 )}
-                <div className="pt-2 flex items-center gap-3">
+                <div className="pt-2 flex flex-wrap items-center gap-2">
                   <span className="text-xs font-medium text-slate-400">Max Badges</span>
                   <input type="number" min={1} max={20} value={backdropRatingsMax ?? ''} onChange={(e) => setBackdropRatingsMax(e.target.value === '' ? null : parseInt(e.target.value, 10))} placeholder="Auto" className={`w-20 ${INPUT_CLASS}`} />
                   <button onClick={() => setBackdropRatingsMax(null)} className={BUTTON_BASE_CLASS + " " + BUTTON_INACTIVE_CLASS}>Auto</button>
@@ -473,7 +456,7 @@ export function WorkspaceControlsPanel({ state, derived, actions }: WorkspaceCon
                   )}
                 </AnimatePresence>
 
-                <div className="pt-2 flex items-center gap-3">
+                <div className="pt-2 flex flex-wrap items-center gap-2">
                   <span className="text-xs font-medium text-slate-400">Max Badges</span>
                   <input type="number" min={1} max={20} value={logoRatingsMax ?? ''} onChange={(e) => setLogoRatingsMax(e.target.value === '' ? null : parseInt(e.target.value, 10))} placeholder="Auto" className={`w-20 ${INPUT_CLASS}`} />
                   <button onClick={() => setLogoRatingsMax(null)} className={BUTTON_BASE_CLASS + " " + BUTTON_INACTIVE_CLASS}>Auto</button>
@@ -618,7 +601,7 @@ export function WorkspaceControlsPanel({ state, derived, actions }: WorkspaceCon
                 )}
               </div>
             )}
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button onClick={enableAllRatingPreferences} className={BUTTON_BASE_CLASS + " " + BUTTON_INACTIVE_CLASS + " px-4 py-2"}>
                 Enable All
               </button>
