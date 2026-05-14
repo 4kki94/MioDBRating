@@ -12,7 +12,7 @@ import { Dropdown } from './dropdown';
 const SEGMENT_CLASS =
   'flex gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]';
 const INPUT_COMPACT_CLASS =
-  'rounded-xl border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-xs text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition duration-200 focus:border-orange-400/50 focus:bg-white/[0.07]';
+  'rounded-xl border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-[13px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition duration-200 focus:border-orange-400/50 focus:bg-white/[0.07]';
 
 type SearchResult = {
   tmdbId: number;
@@ -306,12 +306,12 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
         {/* Center group: Type + Media ID + Lang (desktop) / Mobile Row 1 */}
         <div className="flex flex-col gap-1 lg:mx-auto lg:flex-row lg:items-center lg:gap-3">
           <div className="flex items-center justify-center gap-1">
-            <div className={`${SEGMENT_CLASS} flex max-w-full gap-0.5 overflow-x-auto p-0.5`}>
+            <div className={`${SEGMENT_CLASS} flex max-w-full gap-0.5 overflow-x-auto px-0.5 py-0`}>
             {(['poster', 'backdrop', 'logo', 'thumbnail'] as const).map(type => (
               <button
                 key={type}
                 onClick={() => setPreviewType(type)}
-                className={`flex shrink-0 items-center gap-1 rounded-lg px-1.5 py-0.5 text-[10px] font-bold whitespace-nowrap transition-all sm:px-2 sm:py-1 sm:text-[11px] ${
+                className={`flex h-8 shrink-0 items-center gap-1 rounded-lg px-1.5 py-0.5 text-[10px] font-bold whitespace-nowrap transition-all sm:px-2 sm:py-1 sm:text-[11px] ${
                   previewType === type
                     ? 'border border-orange-400/20 bg-orange-500/10 text-white shadow-sm'
                     : 'border border-transparent text-slate-400 hover:text-white'
@@ -335,9 +335,9 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
               previewType={previewType}
             />
             {tmdbKey ? (
-              <Dropdown value={lang} onChange={setLang} options={langOptions} className="h-8 text-[11px]" />
+              <Dropdown value={lang} onChange={setLang} options={langOptions} className="h-8 text-[13px]" />
             ) : (
-              <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-[#080808] px-2 py-1 text-[10px] text-slate-500">
+              <div className="flex h-8 items-center gap-1 rounded-lg border border-white/10 bg-[#080808] px-2 text-[10px] text-slate-500">
                 <Globe2 className="h-3 w-3 shrink-0" />
                 <span>No key</span>
               </div>
@@ -378,7 +378,7 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
 
         {/* Mobile: Row 2 = Home + Media ID + Lang + compact actions (hidden on desktop) */}
         <div className="flex items-center gap-2 lg:hidden">
-          <Link href="/" className={`flex shrink-0 items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-1.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400 transition-all duration-200 hover:bg-white/[0.07] hover:text-white sm:px-2 sm:py-1.5 sm:text-[11px] ${scrolled ? 'opacity-0 invisible w-0 overflow-hidden px-0' : ''}`}>
+          <Link href="/" className={`flex shrink-0 items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-1.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400 transition-all duration-200 hover:bg-white/[0.07] hover:text-white sm:px-2 sm:py-1.5 sm:text-[11px] h-8 sm:py-0 ${scrolled ? 'opacity-0 invisible w-0 overflow-hidden px-0' : ''}`}>
             <ArrowLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </Link>
           <div className="mx-auto flex items-center gap-2">
@@ -390,9 +390,9 @@ export function WorkspaceNav({ refs, state, actions, derived, onOpenRotateModal 
               previewType={previewType}
             />
             {tmdbKey ? (
-              <Dropdown value={lang} onChange={setLang} options={langOptions} className="h-7 px-2 py-1 text-[10px] sm:h-8 sm:px-2.5 sm:py-1.5 sm:text-[11px]" />
+              <Dropdown value={lang} onChange={setLang} options={langOptions} className="h-8 px-2 py-1 text-[10px] sm:px-2.5 sm:py-1.5 sm:text-[13px]" />
             ) : (
-              <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-[#080808] px-1.5 py-0.5 text-[9px] text-slate-500 sm:px-2 sm:py-1 sm:text-[10px]">
+              <div className="flex h-8 items-center gap-1 rounded-lg border border-white/10 bg-[#080808] px-1.5 text-[9px] text-slate-500 sm:px-2 sm:text-[10px]">
                 <Globe2 className="h-2.5 w-2.5 shrink-0 sm:h-3 sm:w-3" />
                 <span>No key</span>
               </div>

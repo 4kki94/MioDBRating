@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { MonitorPlay } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { HomePageViewProps } from '@/components/workspace/types';
@@ -67,7 +68,7 @@ export function WorkspacePreviewPanel({ state, derived }: WorkspacePreviewPanelP
   return (
     <>
       {/* Invisible viewport boundary for drag constraint */}
-      <div ref={viewportRef} className={`fixed inset-x-0 bottom-0 ${topClass} pointer-events-none z-0`} />
+      <div ref={viewportRef} className={`fixed bottom-0 left-3 right-3 sm:left-4 sm:right-4 ${topClass} pointer-events-none z-0`} />
 
       {/* Mobile floating notice (keys missing) */}
       {previewNotice && (
@@ -81,7 +82,7 @@ export function WorkspacePreviewPanel({ state, derived }: WorkspacePreviewPanelP
       {/* Mobile floating preview (small, top-right) */}
       {!previewNotice && previewUrl && (
         <>
-          {isExpanded && (
+          {isExpanded && createPortal(
             <div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm xl:hidden"
               onClick={() => setIsExpanded(false)}
@@ -95,7 +96,8 @@ export function WorkspacePreviewPanel({ state, derived }: WorkspacePreviewPanelP
                 transition={{ duration: 0.25 }}
                 className="max-h-[90vh] max-w-[90vw] rounded-2xl border border-white/10 shadow-2xl"
               />
-            </div>
+            </div>,
+            document.body
           )}
           <motion.div
             drag
