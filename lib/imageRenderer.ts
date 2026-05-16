@@ -1256,49 +1256,13 @@ export const renderWithSharp = async (
       };
       const qualityBadgeHeight = Math.max(32, posterReferenceBadgeHeight);
       if (qualityPlacement === 'bottom') {
-        const bottomQualityHeight = Math.max(32, posterReferenceBadgeHeight);
-        const hasBottomRatings = input.bottomBadges.length > 0;
-        const hasOverlay = Boolean(posterTitleSpec || posterLogoSpec);
-        let bottomY = Math.max(
+        const bottomRowY = Math.max(
           input.badgeTopOffset,
-          input.outputHeight - input.badgeBottomOffset - bottomQualityHeight
+          input.outputHeight - input.badgeBottomOffset - Math.max(32, posterReferenceBadgeHeight)
         );
-        let currentQualityHeight = bottomQualityHeight;
-        if (hasBottomRatings || hasOverlay) {
-          const bottomRowY = Math.max(
-            input.badgeTopOffset,
-            input.outputHeight - input.badgeBottomOffset - badgeHeight
-          );
-          let anchorY = bottomRowY;
-          if (hasOverlay) {
-            const stableBottomAnchorY = Math.max(
-              input.badgeTopOffset,
-              input.outputHeight - input.badgeBottomOffset - posterReferenceBadgeHeight
-            );
-            anchorY = input.bottomBadges.length > 0 ? bottomRowY : stableBottomAnchorY;
-          }
-
-          let underLogoPlaced = false;
-          if (hasOverlay && lastOverlayBottomY > 0) {
-            const bottomLimit = input.outputHeight;
-            const effectiveAnchorY = hasBottomRatings ? lastOverlayAnchorY : bottomLimit;
-            const spaceBelowLogo = effectiveAnchorY - lastOverlayBottomY;
-            if (spaceBelowLogo >= 40) {
-              currentQualityHeight = Math.max(32, Math.min(bottomQualityHeight, spaceBelowLogo));
-              const freeSpace = Math.max(0, spaceBelowLogo - currentQualityHeight);
-              bottomY = Math.round(lastOverlayBottomY + freeSpace * 0.18);
-              underLogoPlaced = true;
-            }
-          }
-
-          if (!underLogoPlaced) {
-            const topAnchorY = (hasOverlay && lastOverlayTopY > 0) ? lastOverlayTopY : anchorY;
-            bottomY = Math.max(input.badgeTopOffset, topAnchorY - bottomQualityHeight - Math.max(6, Math.round(input.badgeGap * 0.55)));
-          }
-        }
-        const actualQualityHeight = composeQualityBadgeRow(input.qualityBadges, bottomY, currentQualityHeight);
-        lastPosterQualityTopY = bottomY;
-        lastPosterQualityBottomY = bottomY + actualQualityHeight;
+        const actualQualityHeight = composeQualityBadgeRow(input.qualityBadges, bottomRowY, posterReferenceBadgeHeight);
+        lastPosterQualityTopY = bottomRowY;
+        lastPosterQualityBottomY = bottomRowY + actualQualityHeight;
       } else {
         const qualityTotalHeight =
           input.qualityBadges.length * qualityBadgeHeight +
