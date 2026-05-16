@@ -51,7 +51,6 @@ import {
   DEFAULT_POSTER_RATINGS_MAX_PER_SIDE,
   DEFAULT_POSTER_RATING_LAYOUT,
   POSTER_RATING_LAYOUT_OPTIONS,
-  getPosterRatingLayoutMaxBadges,
   isVerticalPosterRatingLayout,
   type PosterRatingLayout,
 } from '@/lib/posterRatingLayout';
@@ -198,7 +197,7 @@ export function useHomePageController({
   const [posterConfiguratorPreset, setPosterConfiguratorPresetState] = useState<PosterConfiguratorPreset>('simple');
   const [posterAverageRatingsEnabled, setPosterAverageRatingsEnabled] = useState(false);
   const [posterVignetteEnabled, setPosterVignetteEnabled] = useState(true);
-  const [posterGenrePosition, setPosterGenrePosition] = useState<PosterGenrePosition>('top');
+  const [posterGenrePosition, setPosterGenrePosition] = useState<PosterGenrePosition>('bottom');
   const [posterSimpleRatingSource, setPosterSimpleRatingSource] = useState<'average' | RatingPreference>('average');
   const [backdropImageText, setBackdropImageText] = useState<'default' | 'clean' | 'alternative'>('clean');
   const [backdropAnimeImageText, setBackdropAnimeImageText] = useState<'default' | 'clean' | 'alternative'>('clean');
@@ -258,6 +257,7 @@ export function useHomePageController({
   const [rankingCountry, setRankingCountry] = useState('global');
   const [rankingCountryTouched, setRankingCountryTouched] = useState(false);
   const [rankingNoBox, setRankingNoBox] = useState(false);
+  const [rankingCompact, setRankingCompact] = useState(false);
   const [rankingPosition, setRankingPosition] = useState<RankingPosition>('auto');
   const updateRankingCountry = useCallback((value: SetStateAction<string>) => {
     setRankingCountryTouched(true);
@@ -909,6 +909,9 @@ export function useHomePageController({
       if (rankingNoBox) {
         query.set('rankingNoBox', 'on');
       }
+      if (rankingCompact) {
+        query.set('rankingCompact', 'on');
+      }
       if (rankingPosition !== 'auto') {
         query.set('rankingPosition', rankingPosition);
       }
@@ -985,6 +988,7 @@ export function useHomePageController({
     ranking,
     effectiveRankingCountry,
     rankingNoBox,
+    rankingCompact,
     rankingPosition,
     posterVignetteEnabled,
   ]);
@@ -1166,6 +1170,9 @@ export function useHomePageController({
       if (rankingNoBox) {
         config.rankingNoBox = 'on';
       }
+      if (rankingCompact) {
+        config.rankingCompact = 'on';
+      }
       if (rankingPosition !== 'auto') {
         config.rankingPosition = rankingPosition;
       }
@@ -1237,6 +1244,7 @@ export function useHomePageController({
     ranking,
     effectiveRankingCountry,
     rankingNoBox,
+    rankingCompact,
     rankingPosition,
     posterVignetteEnabled,
   ]);
@@ -1486,6 +1494,9 @@ export function useHomePageController({
       if (rankingNoBox) {
         config.rankingNoBox = 'on';
       }
+      if (rankingCompact) {
+        config.rankingCompact = 'on';
+      }
       if (rankingPosition !== 'auto') {
         config.rankingPosition = rankingPosition;
       }
@@ -1570,6 +1581,7 @@ export function useHomePageController({
     ranking,
     effectiveRankingCountry,
     rankingNoBox,
+    rankingCompact,
     rankingPosition,
   ]);
 
@@ -1631,6 +1643,7 @@ export function useHomePageController({
     ranking,
     effectiveRankingCountry,
     rankingNoBox,
+    rankingCompact,
   ]);
 
   const updateRatingRowsForType = (
@@ -1791,6 +1804,7 @@ export function useHomePageController({
       ranking,
       rankingCountry: effectiveRankingCountry,
       rankingNoBox,
+      rankingCompact,
       rankingPosition,
     };
 
@@ -1954,6 +1968,11 @@ export function useHomePageController({
       setRankingNoBox(payload.rankingNoBox);
     } else if (payload.rankingNoBox === 'on') {
       setRankingNoBox(true);
+    }
+    if (typeof payload.rankingCompact === 'boolean') {
+      setRankingCompact(payload.rankingCompact);
+    } else if (payload.rankingCompact === 'on') {
+      setRankingCompact(true);
     }
     if (typeof payload.rankingPosition === 'string') {
       setRankingPosition(normalizeRankingPosition(payload.rankingPosition));
@@ -2241,6 +2260,7 @@ export function useHomePageController({
       ranking,
       rankingCountry: effectiveRankingCountry,
       rankingNoBox: rankingNoBox ? 'on' : undefined,
+      rankingCompact: rankingCompact ? 'on' : undefined,
       rankingPosition,
     };
     safeLocalStorageSet(PREVIEW_CONFIG_STORAGE_KEY, JSON.stringify(payload));
@@ -2306,6 +2326,7 @@ export function useHomePageController({
     ranking,
     effectiveRankingCountry,
     rankingNoBox,
+    rankingCompact,
     rankingPosition,
   ]);
 
@@ -2408,6 +2429,7 @@ export function useHomePageController({
       ranking,
       rankingCountry: effectiveRankingCountry,
       rankingNoBox,
+      rankingCompact,
       rankingPosition,
     }),
     [
@@ -2469,6 +2491,7 @@ export function useHomePageController({
       ranking,
       effectiveRankingCountry,
       rankingNoBox,
+      rankingCompact,
       rankingPosition,
     ]
   );
@@ -2529,6 +2552,7 @@ export function useHomePageController({
       ranking,
       rankingCountry: effectiveRankingCountry,
       rankingNoBox: rankingNoBox ? 'on' : undefined,
+      rankingCompact: rankingCompact ? 'on' : undefined,
       rankingPosition,
     }),
     [
@@ -2585,6 +2609,7 @@ export function useHomePageController({
       ranking,
       effectiveRankingCountry,
       rankingNoBox,
+      rankingCompact,
       rankingPosition,
     ]
   );
@@ -2678,7 +2703,15 @@ export function useHomePageController({
       : ratingProviderRows;
   const enabledRatingCount = visibleRatingProviderRows.filter(r => r.enabled).length;
   const tooManyRatings = previewType === 'poster'
-    ? enabledRatingCount > (getPosterRatingLayoutMaxBadges(posterRatingsLayout, posterRatingsMaxPerSide) ?? Infinity)
+    ? isVerticalPosterRatingLayout(posterRatingsLayout) &&
+      !shouldUsePosterAverageRatings &&
+      posterStreamBadges !== 'off' && ranking !== 'off' && posterGenrePosition !== 'off' &&
+      posterRatingsMaxPerSide === null &&
+      !(rankingPosition === 'top' && posterGenrePosition === 'bottom' && posterVerticalBadgeContent === 'stacked') &&
+      !rankingCompact &&
+      enabledRatingCount > (posterRatingsLayout === 'left-right'
+        ? (posterVerticalBadgeContent === 'stacked' ? 4 : 8) + (posterImageText === 'clean' ? 0 : 2)
+        : (posterVerticalBadgeContent === 'stacked' ? 2 : 4) + (posterImageText === 'clean' ? 0 : 1))
     : previewType === 'backdrop'
       ? backdropRatingsMax !== null && enabledRatingCount > backdropRatingsMax
       : previewType === 'logo'
@@ -2692,7 +2725,7 @@ export function useHomePageController({
         : previewType === 'thumbnail' && !EPISODE_ID_PATTERN.test(mediaId.trim())
           ? 'Movies are not supported for thumbnails.'
           : tooManyRatings
-            ? 'Too many ratings enabled — some may be hidden to avoid overlap.'
+            ? `Too many ratings — set Max / Side to ${(posterVerticalBadgeContent === 'stacked' ? 2 : 4) + (posterImageText === 'clean' ? 0 : 1)} or fewer to avoid missing the Ranking badge.`
             : null;
 
   const setRatingStyleForType = (value: RatingStyle) => {
@@ -2797,6 +2830,7 @@ export function useHomePageController({
       ranking,
       rankingCountry: effectiveRankingCountry,
       rankingNoBox,
+      rankingCompact,
       rankingPosition,
     },
     derived: {
@@ -2971,6 +3005,7 @@ export function useHomePageController({
       setRanking,
       setRankingCountry: updateRankingCountry,
       setRankingNoBox,
+      setRankingCompact,
       setRankingPosition,
     },
   };

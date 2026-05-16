@@ -2,6 +2,43 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.78](https://github.com/realbestia1/erdb/compare/v0.4.77...v0.4.78) - 2026-05-16
+
+- . ([968491a](https://github.com/realbestia1/erdb/commit/968491ab618fb116ab4c6f0b5cbc85cbe136a2af))
+
+## [0.4.77](https://github.com/realbestia1/erdb/compare/v0.4.76...v0.4.77) - 2026-05-16
+
+- Simplify bottom quality badge layout ([bcb1e37](https://github.com/realbestia1/erdb/commit/bcb1e37a75a76bfc4fc7610ebc634a59d2a9d98c))
+  Remove complex overlay- and spacing-specific logic for bottom-quality badge placement in lib/imageRenderer.ts and compute a single bottomRowY using posterReferenceBadgeHeight. Call composeQualityBadgeRow with the reference height and update lastPosterQualityTopY/BottomY accordingly to simplify layout behavior. Also bump package version to 0.4.77 in package.json.
+
+## [0.4.76](https://github.com/realbestia1/erdb/compare/v0.4.75...v0.4.76) - 2026-05-16
+
+- . ([808cb4a](https://github.com/realbestia1/erdb/commit/808cb4a4d292f6ff9f7480105c787684be22e893))
+
+## [0.4.75](https://github.com/realbestia1/erdb/compare/v0.4.74...v0.4.75) - 2026-05-16
+
+- Add compact ranking and above-logo genre ([d0c5dfa](https://github.com/realbestia1/erdb/commit/d0c5dfa8bb805b97e5bdb0b89aff7d338c1ef663))
+  Introduce a new 'rankingCompact' option and support a new poster genre position 'above-logo'. Propagate rankingCompact through route handling, proxy/token config, controller state, types, and UI (checkbox in workspace controls). Update ranking badge SVG to render compact (number-only) badges and adjust layout/collision logic for genre and ranking placements. Other improvements: render dropdown menus into document.body with createPortal, tweak preview panel sizing, and refine many badge sizing/spacing/inset calculations. Also bump package version to 0.4.75.
+
+## [0.4.74](https://github.com/realbestia1/erdb/compare/v0.4.73...v0.4.74) - 2026-05-16
+
+- Change poster genre position and badge layout ([2d0ea2a](https://github.com/realbestia1/erdb/commit/2d0ea2a3baffd887e9d81f8cccd17458df94f38b))
+  Set default poster genre position to 'bottom' and adjust the too-many-ratings message to account for poster image text when calculating allowed badges. Simplify genre badge placement in the image renderer by removing the collision-resolved flag/warning and always rendering the genre overlay and registering its blocking rect (loop break logic preserved). Bump package version to 0.4.74.
+
+## [0.4.73](https://github.com/realbestia1/erdb/compare/v0.4.72...v0.4.73) - 2026-05-16
+
+- Fix preview notice overlay and rating counts ([ef3de31](https://github.com/realbestia1/erdb/commit/ef3de31639891dd0c343161281a43ce8119c784a))
+  Improve preview rendering and rating badge capacity:
+
+  - Poster rating logic: when posterRatingsMaxPerSide is unset, account for posterImageText (adds extra badge slots when image text is not 'clean') while preserving left-right vs single-column and stacked vs non-stacked rules.
+  - Workspace preview: avoid PreviewImage remounts by using a stable wrapper key and render previewNotice as a separate absolutely-positioned overlay with increased z-index.
+  - Bump package version to 0.4.73.
+
+## [0.4.72](https://github.com/realbestia1/erdb/compare/v0.4.71...v0.4.72) - 2026-05-16
+
+- Improve poster badge placement & preview handling ([a68b6cc](https://github.com/realbestia1/erdb/commit/a68b6ccdb01bf2491f6f2d7fa84634df2836d90a))
+  Stop rendering poster genre/ranking overlays when collision resolution fails to avoid misplaced badges; only add blocking rects for successfully placed badges. Update poster rating overflow logic for vertical layouts (and remove the now-unused getPosterRatingLayoutMaxBadges import), and provide a clearer user message recommending a lower Max/Side based on stacked vs. regular vertical badge content. Change workspace preview to always render the preview image when available and overlay any preview notice on top of it instead of hiding the image. Bump package version to 0.4.72.
+
 ## [0.4.71](https://github.com/realbestia1/erdb/compare/v0.4.70...v0.4.71) - 2026-05-15
 
 - Add Stremio install link and fix badge collisions ([caa58bb](https://github.com/realbestia1/erdb/commit/caa58bb421d850615726ffe7b690af493ee25df2))
