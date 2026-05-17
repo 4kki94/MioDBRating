@@ -1455,9 +1455,23 @@ export const renderWithSharp = async (
           }
         }
       } else {
+        let columnBadges = [...input.qualityBadges];
+        if (columnBadges.length >= 2) {
+          const has4k = columnBadges.some((b) => b.key === '4k');
+          if (has4k) {
+            const lastNon4kIndex = columnBadges.length - 1 - [...columnBadges].reverse().findIndex((b) => b.key !== '4k');
+            if (lastNon4kIndex !== -1 && lastNon4kIndex < columnBadges.length) {
+              columnBadges.splice(lastNon4kIndex, 1);
+            } else {
+              columnBadges.pop();
+            }
+          } else {
+            columnBadges.pop();
+          }
+        }
         const qualityTotalHeight =
-          input.qualityBadges.length * qualityBadgeHeight +
-          Math.max(0, input.qualityBadges.length - 1) * input.badgeGap;
+          columnBadges.length * qualityBadgeHeight +
+          Math.max(0, columnBadges.length - 1) * input.badgeGap;
         const centeredStartY = Math.max(
           input.badgeTopOffset,
           Math.round((input.outputHeight - qualityTotalHeight) / 2)
@@ -1484,7 +1498,7 @@ export const renderWithSharp = async (
             }
           }
         }
-        composeQualityBadgeColumn(input.qualityBadges, qualityStartY, qualityPlacement === 'right' ? 'right' : 'left');
+        composeQualityBadgeColumn(columnBadges, qualityStartY, qualityPlacement === 'right' ? 'right' : 'left');
       }
     }
 
